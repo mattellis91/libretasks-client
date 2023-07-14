@@ -1,13 +1,4 @@
 <script lang=ts>
-	function onSubmit(e) {
-		const formData = new FormData(e.target);
-		let data = {};
-		for(const f of formData) {
-			const [k, v] = f;
-			data[k] = v			
-		}
-		console.log(data)
-	}
 </script>
 
 <svelte:head>
@@ -17,7 +8,7 @@
 
 <section>
 	
-	<form method="POST" on:submit|preventDefault={onSubmit}>
+	<form method="POST" action="?/login">
 		<label>
 			Email
 			<input name="email" type="email" />
