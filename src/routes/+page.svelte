@@ -20,7 +20,7 @@
 		</label>
 		<button type="submit">Log in</button>
 	</form>
-	<!-- <Board /> -->
+	<Board />
 </section>
 
 <style>
