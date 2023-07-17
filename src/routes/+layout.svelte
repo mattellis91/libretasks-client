@@ -4,105 +4,126 @@
   import "./styles.css";
 
   let collapsed = false;
+  let submenuOpen = false;
+
+  import FaArrowLeft from 'svelte-icons/fa/FaArrowLeft.svelte';
+  import FaTasks from 'svelte-icons/fa/FaTasks.svelte'
+  import FaSearch from 'svelte-icons/fa/FaSearch.svelte'
+  import FaBorderAll from 'svelte-icons/fa/FaBorderAll.svelte'
+  import FaChevronDown from 'svelte-icons/fa/FaChevronDown.svelte'
+
+  const menuItems = [
+    {title: "Item 1"},
+    {title: "Item 2", icon: FaSearch},
+    {title: "Item 3", spacing: true, icon: FaBorderAll},
+    {title: "Item 4", icon: FaBorderAll,
+      submenu: true,
+      submenuItems: [
+        { title: "submenu 1"},
+        { title: "submenu 2"},
+        { title: "submenu 3"}
+      ]
+    },
+    { title: "Item 5", icon: FaBorderAll},
+    { title: "Item 6", icon: FaBorderAll},
+    { title: "Item 7", spacing: true, icon: FaBorderAll},
+    { title: "Item 8", icon: FaBorderAll},
+    { title: "Item 9", icon: FaBorderAll}
+  ]
   
-  function collapse() {
-    collapsed = true;
+  function toggleCollapsed() {
+    collapsed = !collapsed;
   }
 
-  function expand() {
-    collapsed = false
+  function handleDropdown() {
+    submenuOpen = !submenuOpen;
   }
 
 </script>
 
 <div class="app">
-  <Header bind:collapsed={collapsed}/>
-  <div class=content>
-    <div id="mySidebar" class="sidebar" class:collapsed={collapsed}>
-      {#if collapsed}
-        <span class="expand-button">+</span>
-      {:else}
-        <span>Username</span>
-        
-        <a href="#">About</a>
-        <a href="#">Services</a>
-        <a href="#">Clients</a>
-        <a href="#">Contact</a>
-      {/if}
+  <div class="flex">
+    <div
+      class:w-72={!collapsed}
+      class:w-20={collapsed} 
+      class="bg-dark-purple h-screen p-5 pt-8 relative duration-300">
+      <!-- svelte-ignore a11y-click-events-have-key-events -->
+      <!-- svelte-ignore a11y-no-static-element-interactions -->
+      <div on:click={toggleCollapsed}
+        class:rotate-180={!collapsed}
+        class="bg-white text-dark-purple w-6 h-6 p-1 rounded-full absolute -right-3 top-9 border border-dark-purple cursor-pointer">
+        <FaArrowLeft />     
+      </div>
+      <div class="inline-flex">
+        <div 
+          class:rotate-[360deg]={!collapsed}
+          class="w-8 h-8 bg-fuchsia-300 rounded float-left p-1 block cursor-pointer mr-2 duration-500">
+          <FaTasks />
+        </div>
+        <h1 class:scale-0={collapsed} class="text-white origin-left font-medium text-2xl duration-300">Libretasks</h1>
+      </div>
+
+      <div
+        class:px-4={!collapsed}
+        class:px-2.5={collapsed} 
+        class="flex items-center rounded-md bg-light-white mt-6 py-2">
+        <div
+          class:mr-2={!collapsed} 
+          class="w-4 h-4 text-white block float-left cursor-pointer">
+          <FaSearch />
+        </div>
+        <input type="search" placeholder="Search" 
+        class:hidden={collapsed}
+        class="bg-transparent w-full text-white focus:outline-none"/>
+      </div>
+
+      <ul class="pt-2">
+        {#each menuItems as item}
+          <li
+            class:mt-9={item.spacing}
+            class:mt-2={!item.spacing} 
+            class="text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 hover:bg-light-white rounded-md">
+            <div class="w-5 h-5 block float-left">
+              {#if item.icon}
+                <svelte:component this={item.icon} />
+              {:else}
+                <FaBorderAll />
+              {/if}
+            </div>
+            <span
+            class:hidden={collapsed} 
+            class="text-base font-medium flex-1 duration-200">{item.title}</span>
+            {#if item.submenu && !collapsed}
+              <!-- svelte-ignore a11y-click-events-have-key-events -->
+              <!-- svelte-ignore a11y-no-static-element-interactions -->
+              <div 
+              class:rotate-180={submenuOpen}
+              class="w-4 h-4 text-white" on:click={handleDropdown}><FaChevronDown /></div>
+            {/if}
+          </li>
+
+          {#if item.submenu && submenuOpen && !collapsed}
+            <ul>
+             {#each item.submenuItems as submenuItem}
+              <li
+                class:mt-9={item.spacing}
+                class:mt-2={!item.spacing} 
+                class="text-gray-300 text-sm flex items-center gap-x-4 cursor-pointer p-2 px-5 hover:bg-light-white rounded-md"
+              >
+                {submenuItem.title}
+              </li>
+             {/each} 
+            </ul>
+          {/if}
+        {/each}
+      </ul>
+
     </div>
-    <main>
-        <slot />
-    </main>
+    <div class="p-7"><h1 class="text-2xl font-semibold">Home Page</h1></div>
   </div>
-  <footer />
 </div>
 
 <style>
-
-.sidebar {
-  height: 100vh;
-  width: 250px;
-  background-color: #111;
-  transition: 0.5s;
-  padding-top: 60px;
-}
-.expand-button {
-  color: white;
-  font-size: 2rem;
-  background-color: #444;
-  border-radius: 100%;
-  position: relative;
-  left: 10px;
-  top: 50%;
-  z-index: 2;
-}
-
-.content {
-  display:flex;
-  flex-flow: row;
-} 
-
-.collapsed {
-  width: 20px;
-}
-
-.indented {
-  margin-left: 250px;
-}
-
-.sidebar a {
-  padding: 8px 8px 8px 32px;
-  text-decoration: none;
-  font-size: 25px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
-}
-
-.sidebar a:hover {
-  color: #f1f1f1;
-}
-
-.sidebar .closebtn {
-  top: 0;
-  right: 25px;
-  font-size: 36px;
-  margin-left: 50px;
-}
-
-.openbtn {
-  font-size: 20px;
-  cursor: pointer;
-  background-color: #111;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-}
-
-.openbtn:hover {
-  background-color: #444;
-}
-
   .app {
     min-height: 100vh;
   }
@@ -116,8 +137,6 @@
     footer {
       padding: 12px 0;
     }
-    .sidebar {padding-top: 15px;}
-    .sidebar a {font-size: 18px;}
   }
 
 </style>

@@ -1,5 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;700&display=swap');
-  
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
 	--font-body: 'Plus Jakarta Sans', sans-serif;
@@ -8,20 +11,4 @@
 body {
 	min-height: 100vh;
 	margin: 0;
-}
-
-input,
-button {
-	font-size: inherit;
-	font-family: inherit;
-}
-
-button:focus:not(:focus-visible) {
-	outline: none;
-}
-
-@media (min-width: 720px) {
-	h1 {
-		font-size: 2.4rem;
-	}
 }
