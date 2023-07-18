@@ -11,6 +11,7 @@
   import FaSearch from 'svelte-icons/fa/FaSearch.svelte'
   import FaBorderAll from 'svelte-icons/fa/FaBorderAll.svelte'
   import FaChevronDown from 'svelte-icons/fa/FaChevronDown.svelte'
+  import FaHome from 'svelte-icons/fa/FaHome.svelte'
 
   const menuItems = [
     {title: "Item 1"},
@@ -63,7 +64,7 @@
         <h1 class:scale-0={collapsed} class="text-white origin-left font-medium text-2xl duration-300">Libretasks</h1>
       </div>
 
-      <div
+      <!-- <div
         class:px-4={!collapsed}
         class:px-2.5={collapsed} 
         class="flex items-center rounded-md bg-light-white mt-6 py-2">
@@ -75,9 +76,23 @@
         <input type="search" placeholder="Search" 
         class:hidden={collapsed}
         class="bg-transparent w-full text-white focus:outline-none"/>
+      </div> -->
+
+      <div class="text-gray-300 items-center py-4 mt-20 border-b border-gray-300 mb-4">
+        <div 
+                class="text-gray-300 text-sm flex items-center gap-x-4 block cursor-pointer hover:bg-light-white rounded-md mb-2"
+              >
+              <div class="w-5 h-5 block float-left">
+                <FaHome />
+              </div>
+              <span
+                class:hidden={collapsed} 
+                class="text-base font-medium flex-1 duration-200">Home</span>
+        </div>
       </div>
 
       <ul class="pt-2">
+        <span class="text-gray-300 text-sm block mb-2">ALL BOARDS (2)</span>
         {#each menuItems as item}
           <li
             class:mt-9={item.spacing}
@@ -136,7 +151,12 @@
       </div>
 
     </div>
-    <div class="p-7 w-full h-screen">
+    <div class="w-full h-screen">
+
+      <!-- header -->
+      <div class="border-b border p-7">
+        <h1 class="origin-left font-medium text-xl">Board title</h1>
+      </div>
 
 <div class="mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8">
   <div class="mx-auto max-w-lg align-middle">
