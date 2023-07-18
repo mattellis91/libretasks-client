@@ -3,6 +3,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@tailwind forms;
 
 :root {
 	--font-body: 'Plus Jakarta Sans', sans-serif;
